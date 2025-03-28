@@ -35,16 +35,10 @@ typedef struct {
 } T_BUCKET;
 */
 typedef struct {
+   time t_stamp;
+   laptop_details laptop;
    student_details student;
 } Entries;
-
-typedef struct {
-   time t_stamp;
-}time_track;
- 
-typedef struct {
-   laptop_details laptop;
-} laptop_entries;
 
 #define REG_OK 0
 #define REG_ERR 1
