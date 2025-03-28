@@ -1,14 +1,4 @@
-#include <string.h>
-#include "variables.h"
-#include <errno.h>
-
-#ifndef _STDIO_H
-#include <stdio.h>
-#endif
-
-#ifndef _STDLIB_H
-#include <stdlib.h>
-#endif
+#include "header_files.h"
 
 int main (int argc, char** argv){
     Entries* entry = malloc (sizeof (Entries));
