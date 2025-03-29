@@ -15,7 +15,7 @@
 >   - actively collaborating and explaining what you understand most</br>
 
 > [!NOTE]
-> Merging pull requests before it is reviewed is not allowed
+> Merging pull requests before it is reviewed is **not** allowed
 > Every commit message should atleast explain what you have done exactly
     - commit message should not be too long not too short
     - commit message should not be ambiguous 
