@@ -11,12 +11,8 @@ int main (int argc, char** argv){
         system ("clear");
         printf ("Invalid input, please try again.\n");
     }
-    laptop_entries* laptops = malloc (sizeof (laptop_entries));
-    if (laptops == NULL) {
-       fprintf (stderr, "%s\n", strerror(errno));
-       exit (errno);
-    }
-    while ((register_laptop (laptops)) == REG_ERR)
+
+    while ((register_laptop (entry)) == REG_ERR)
     {
         system ("clear");
         printf ("Invalid input, please try again.\n");
@@ -27,10 +23,9 @@ int main (int argc, char** argv){
     printf ("student phone number: %s\n", entry->student.phone_no);
     printf ("student year of study: %s\n", entry->student.y_of_study);
 
-    printf ("laptop model: %s\n", laptops->laptop.model);
-    printf ("laptop serial number: %s\n", laptops->laptop.serial_no);
+    printf ("laptop model: %s\n", entry->laptop.model);
+    printf ("laptop serial number: %s\n", entry->laptop.serial_no);
 
     free (entry); 
-    free (laptops);
     return 0; 
 }
