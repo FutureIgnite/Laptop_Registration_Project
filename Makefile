@@ -1,8 +1,8 @@
 
 CFLAGS = -Wall -g
 PROG = DevAuth 
-SRC = ${PROG}.c reg.c
-OBJ = DevAuth.o reg.o
+SRC = ${PROG}.c reg.c current_date.c
+OBJ = DevAuth.o reg.o current_date.o
 CC = gcc
 
 ${PROG}:${OBJ}
