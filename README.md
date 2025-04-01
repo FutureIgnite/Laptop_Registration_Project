@@ -17,5 +17,5 @@
 > [!NOTE]
 > Merging pull requests before it is reviewed is **not** allowed. 
 > Make sure that your commit message is explaining what you have done exactly</br>
->   - commit message should not be too long nor too short
+>   - commit message should not be too short
 >   - commit message should not be ambiguous 
