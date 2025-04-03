@@ -1,7 +1,5 @@
 #include <sqlite3.h>
-#include <stdio.h>
-#include <stdlib.h>
-
+#include "header_files.h"
 sqlite3 *db;
 
 int db_init() {
@@ -14,21 +12,57 @@ int db_init() {
         fprintf(stdout, "Opened database successfully\n");
     }
 
-    const char *sql = "CREATE TABLE IF NOT EXISTS LAPTOPS("
-                      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                      "model TEXT NOT NULL,"
-                      "serail_no TEXT NOT NULL);";
+    // SQL to create the LAPTOPS table
+    const char *sql_laptops = "CREATE TABLE IF NOT EXISTS LAPTOPS("
+                              "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                              "model TEXT NOT NULL,"
+                              "serial_no TEXT NOT NULL);";
+
+    // SQL to create the STUDENTS table
+    const char *sql_students = "CREATE TABLE IF NOT EXISTS STUDENTS("
+                               "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                               "name TEXT NOT NULL,"
+                               "reg_no TEXT NOT NULL,"
+                               "phone_no TEXT NOT NULL,"
+                               "year_of_study TEXT NOT NULL);";
+
+    const char *sql_time_stamp = "CREATE TABLE IF NOT EXISTS TIME_STAMP("
+                                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                "date_of_reg TEXT NOT NULL,"
+                                "check_out TEXT NOT NULL,"
+                                "check_in TEXT NOT NULL);";
+    
 
     char *err_msg = NULL;
 
-    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+    // Execute SQL for LAPTOPS table
+    rc = sqlite3_exec(db, sql_laptops, 0, 0, &err_msg);
     if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        fprintf(stderr, "SQL error (LAPTOPS): %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         return rc;
     } else {
-        fprintf(stdout, "Table created successfully\n");
+        fprintf(stdout, "LAPTOPS table created successfully\n");
     }
+
+    // Execute SQL for STUDENTS table
+    rc = sqlite3_exec(db, sql_students, 0, 0, &err_msg);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "SQL error (STUDENTS): %s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        return rc;
+    } else {
+        fprintf(stdout, "STUDENTS table created successfully\n");
+    }
+
+    if ((rc = sqlite3_exec (db, sql_time_stamp, NULL, NULL, &err_msg)) != SQLITE_OK){
+        fprintf (stderr, "Erro %s", err_msg);
+        sqlite3_free (err_msg);
+        sqlite3_close(db);
+        return rc;
+    }
+
     return 0;
 }

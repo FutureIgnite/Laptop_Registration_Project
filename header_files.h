@@ -7,4 +7,5 @@
 #include <string.h>
 #include "variables.h"
 #include <errno.h>
+#include <time.h>
 #endif

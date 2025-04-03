@@ -20,7 +20,7 @@ typedef struct {
    char t_registration[50]; 
    char t_checkIn[50];
    char t_checkOut[50];
-} time;
+} time_stamp;
 
 /*typedef struct {
     Laptop* Lap_Entries[1000];
@@ -35,7 +35,7 @@ typedef struct {
 } T_BUCKET;
 */
 typedef struct {
-   time t_stamp;
+   time_stamp t_stamp;
    laptop_details laptop;
    student_details student;
 } Entries;
@@ -43,5 +43,7 @@ typedef struct {
 #define REG_OK 0
 #define REG_ERR 1
 int register_student (Entries*);
-int register_laptop (laptop_entries*);
+int register_laptop (Entries*);
+void init_current_date ();
+struct tm* current_date();
 #endif
