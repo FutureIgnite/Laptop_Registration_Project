@@ -21,10 +21,21 @@ void init_current_date () {
    }
 }
 
+/* 
+I think this should be first time registration because it would be 
+useless and time consuming to key in this credentials every time 
+a student is at the gate , the solution is to save this meatadata 
+in a qr code uniquely for every student. So i think we need another file
+*/
+
+/* Also should this data not be saved in a database? */
 int register_student (Entries* entry) {
    init_current_date ();
    printf ("....Enter student details....\n");
-   printf ("Enter student name:  ");
+   printf ("Enter student name:  "); 
+   /* Here i think if student name doesn't march the students on our database
+   should also return error to the standard error because we cannot be registering a laptop
+   of a student who is not in our school*/
    if (fgets(entry->student.student_name, sizeof(entry->student.student_name), stdin) != NULL){
       if (strlen(entry->student.student_name) < 4){
          fprintf (stderr, "Name is too short.\n");
@@ -55,7 +66,7 @@ int register_student (Entries* entry) {
       fprintf(stderr, "Error reading registration number.\n");
       return (REG_ERR);
    }
-   printf ("Enter student phone number: ");
+   printf ("Enter student phone number: ");// print newline character
    if ((scanf ("%14s", entry->student.phone_no)) == 1){
       flush_input_buff ();
       if (strlen(entry->student.phone_no) < 10) {
