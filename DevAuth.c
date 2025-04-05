@@ -11,12 +11,14 @@ int main (int argc, char** argv){
     }
     while ((register_student (entry)) == REG_ERR)
     {
+        sleep(2);
         system ("clear");
         printf ("Invalid input, please try again.\n");
     }
 
     while ((register_laptop (entry)) == REG_ERR)
     {
+        sleep(2);
         system ("clear");
         printf ("Invalid input, please try again.\n");
     }
