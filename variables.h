@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 typedef struct { 
    char model[50];
    char serial_no[50];
@@ -22,28 +21,23 @@ typedef struct {
    char t_checkOut[50];
 } time_stamp;
 
-/*typedef struct {
-    Laptop* Lap_Entries[1000];
-} L_BUCKET;
-
-typedef struct {
-   Student* Snt_Entries[1000];
-} S_BUCKET;
-
-typedef struct {
-   Time* Tm_Entries[1000];
-} T_BUCKET;
-*/
 typedef struct {
    time_stamp t_stamp;
    laptop_details laptop;
    student_details student;
 } Entries;
 
+//...macros...
 #define REG_OK 0
 #define REG_ERR 1
+
+//....function declarations...
+Entries* check_if_exists (const char*); //should be implemented
 int register_student (Entries*);
 int register_laptop (Entries*);
+void init_current_date (Entries* entry);
 void init_current_date ();
+Entries* input (char*);
 struct tm* current_date();
+
 #endif

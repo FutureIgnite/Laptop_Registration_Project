@@ -7,14 +7,15 @@ void flush_input_buff () {
    while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
-void init_current_date () {
+void init_current_date (Entries* entry) {
    struct tm *current_d = current_date();
    if (current_d != NULL) {
       char date_str[11]; // Buffer to hold the formatted date string (dd-mm-yyyy + null terminator)
-      if (strftime(date_str, sizeof(date_str), "%d-%m-%Y", current_d)) {
-         printf("Current date: %s\n", date_str);
-      } else {
+      if (!(strftime(date_str, sizeof(date_str), "%d-%m-%Y", current_d))) {
          fprintf(stderr, "Error formatting the current date.\n");
+         strcpy (entry->t_stamp.t_registration, "NULL");
+      }else {
+         strcpy (entry->t_stamp.t_registration, date_str); 
       }
    } else {
       fprintf(stderr, "Error retrieving the current date.\n");
@@ -22,8 +23,8 @@ void init_current_date () {
 }
 
 int register_student (Entries* entry) {
-   init_current_date ();
-   printf ("....Enter student details....\n");
+   init_current_date (entry);
+   printf ("\n....Enter student details....\n");
    printf ("Enter student name:  ");
    if (fgets(entry->student.student_name, sizeof(entry->student.student_name), stdin) != NULL){
       if (strlen(entry->student.student_name) < 4){
@@ -89,7 +90,7 @@ int register_student (Entries* entry) {
 }
 
 int register_laptop (Entries* Laptop) {
-   printf ("....Enter laptop details....\n");
+   printf ("\n....Enter laptop details....\n");
    printf ("Enter laptop model: ");
    if (fgets(Laptop->laptop.model, sizeof(Laptop->laptop.model), stdin) != NULL) {
       if (strchr(Laptop->laptop.model, '\n')) 

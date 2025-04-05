@@ -1,6 +1,7 @@
 
 #ifndef HEADER_FILES_H
 #define HEADER_FILES_H
+#include <sqlite3.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
