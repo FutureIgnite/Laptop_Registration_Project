@@ -1,6 +1,6 @@
 # <ins>Soving Rising🚀 Laptops ***Theft*** Cases</ins></br>
 ## Modules lists</br>
-- [X] Registration module</br>
+- [ ] Registration module</br>
 - [ ] Database module</br>
 - [ ] Load module</br>
      -To load data from database to the main memory</br>
