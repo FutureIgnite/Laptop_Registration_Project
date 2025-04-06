@@ -16,7 +16,7 @@ void add_terminator (char *string){
 }
 
 void clear_console (){
-   sleep (2);
+   sleep (1);
    for (int i = 0; i < 2; ++i){//so that it can remove the error message and the typed characters from the console
       printf("\033[A\033[2K"); //move the cursor up one line and clear the line 
       fflush (stdout);//remove the characters in the console   
@@ -49,9 +49,9 @@ void init_current_date (Entries* entry) {
 
 int register_student (Entries* entry) {
    init_current_date (entry);
-   printf ("\n....Enter student details....\n");
+   printf ("\n\t==============STUDENT DETAILS=========================\n");
 label1:
-   printf ("Enter student name:  ");
+   printf ("\t\tEnter student name:  ");
    if (fgets(entry -> student.student_name, sizeof(entry -> student.student_name), stdin) != NULL){
       if (isEmpty (entry -> student.student_name[0], "Student Name")){
          clear_console();
@@ -68,7 +68,7 @@ label1:
       return (REG_ERR); //REG_ERR macro defined in variables.h exands to 1
    }
 label2:
-   printf ("Enter student registration number:  ");
+   printf ("\t\tEnter student registration number:  ");
    if ((fgets(entry -> student.reg_no, sizeof (entry -> student.reg_no), stdin)) != NULL){
       if (isEmpty(entry -> student.reg_no[0], "Student Registration Number")){
          goto label2;
@@ -91,7 +91,7 @@ label2:
       return (REG_ERR);
    }
 label3:
-   printf ("Enter student phone number: ");
+   printf ("\t\tEnter student phone number: ");
    if ((fgets (entry -> student.phone_no, sizeof (entry -> student.phone_no), stdin)) != NULL){
       if (strlen(entry -> student.phone_no) < 10) {
          fprintf (stderr, "Phone number too short\n");
@@ -111,7 +111,7 @@ label3:
       return (REG_ERR);
    } 
 label4:
-   printf ("Enter student year of study: ");
+   printf ("\t\tEnter student year of study: ");
    if((fgets (entry -> student.y_of_study, sizeof (entry -> student.y_of_study), stdin)) != NULL) {
       if (isEmpty (entry -> student.y_of_study[0], "Year of study")){
          goto label4;
@@ -132,9 +132,9 @@ label4:
 }
 
 int register_laptop (Entries* Laptop) {
-   printf ("\n....Enter laptop details....\n");
+   printf ("\n\t==============LAPTOP DETAILS==========================\n");
 label5:
-   printf ("Enter laptop model: ");
+   printf ("\t\tEnter laptop model: ");
    if (fgets(Laptop -> laptop.model, sizeof(Laptop -> laptop.model), stdin) != NULL) {
       if (isEmpty (Laptop -> laptop.model[0], "Laptop model")){
          goto label5;
@@ -145,7 +145,7 @@ label5:
       return (REG_ERR);
    }
 label6:
-   printf ("Enter laptop serial number: ");
+   printf ("\t\tEnter laptop serial number: ");
    if (fgets(Laptop -> laptop.serial_no, sizeof(Laptop -> laptop.serial_no), stdin) != NULL) {
       if (isEmpty (Laptop -> laptop.serial_no[0], "Serial Number")){
          goto label6;
