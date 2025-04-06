@@ -8,7 +8,7 @@
 - [ ] Main program module</br>
 - [ ] Header files and variables</br>
 # system design</br>
-> ![tempFileForShare_20250406-094658](https://github.com/user-attachments/assets/2578198d-3c3a-4ab4-aaaa-37a1ff9296b0)
+![tempFileForShare_20250406-094658](https://github.com/user-attachments/assets/2578198d-3c3a-4ab4-aaaa-37a1ff9296b0)
 
 # Contibution</br>
 > [!IMPORTANT]
