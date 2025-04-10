@@ -1,7 +1,8 @@
 #include "../includes/header_files.h"
-sqlite3 *db;
 
 int db_init() {
+
+    sqlite3 *db;
 
     if (sqlite3_open ("laptop.db", &db) != SQLITE_OK) {
         fprintf(stderr, "Can't initialize database: %s\n", sqlite3_errmsg(db));
@@ -73,6 +74,10 @@ int db_init() {
         sqlite3_close (db);
         return 1;
     }
+
+    sqlite3_finalize (stmt);
+    sqlite3_close (db);
+
     return 0;
 }
 
