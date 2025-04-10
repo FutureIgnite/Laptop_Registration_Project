@@ -21,10 +21,10 @@ int save_data (Entry *entry){
         return 1;
     }
 
-    sqlite3_bind_text (stmt, 1, entry -> student.student_name, -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text (stmt, 2, entry -> student.reg_no, -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text (stmt, 3, entry -> student.phone_no, -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text (stmt, 4, entry -> student.y_of_study, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text (stmt, 1, entry -> student.student_name, -1,   SQLITE_TRANSIENT);
+    sqlite3_bind_text (stmt, 2, entry -> student.reg_no, -1,         SQLITE_TRANSIENT);
+    sqlite3_bind_text (stmt, 3, entry -> student.phone_no, -1,       SQLITE_TRANSIENT);
+    sqlite3_bind_text (stmt, 4, entry -> student.y_of_study, -1,     SQLITE_TRANSIENT);
     sqlite3_bind_text (stmt, 5, entry -> t_stamp.t_registration, -1, SQLITE_TRANSIENT);
 
     if (sqlite3_step (stmt) != SQLITE_DONE) {
@@ -44,8 +44,8 @@ int save_data (Entry *entry){
         return 1;
     }
     
-    sqlite3_bind_int (stmt,  1, student_id);
-    sqlite3_bind_text (stmt, 2, entry -> laptop.model, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int  (stmt,  1, student_id);
+    sqlite3_bind_text (stmt, 2, entry -> laptop.model, -1,     SQLITE_TRANSIENT);
     sqlite3_bind_text (stmt, 3, entry -> laptop.serial_no, -1, SQLITE_TRANSIENT);
 
     if (sqlite3_step (stmt) != SQLITE_DONE){
@@ -56,6 +56,8 @@ int save_data (Entry *entry){
     }
 
     sqlite3_finalize (stmt);
+    
+    sqlite3_close    (db);
 
     return 0;
 }
