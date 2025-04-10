@@ -1,7 +1,5 @@
 #ifndef VARIABLES_H
 #define VARIABLES_H
-#include <stdlib.h>
-#include <stdio.h>
 
 typedef struct { 
    char model[50];
@@ -34,11 +32,10 @@ typedef struct {
 #define exit_screen() puts ("\033[?1049l")
 
 //....function declarations...
-Entry* check_if_exists (const char*); //should be implemented
 int register_student (Entry*);
 int register_laptop (Entry*);
 void init_current_date (Entry*);
-Entry* input (char*);
+Entry* lookup_db (const char*);
 struct tm* current_date();
 
 #endif
