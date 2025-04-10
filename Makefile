@@ -1,14 +1,21 @@
 
-CFLAGS = -Wall -Wextra -g
-PROG = DevAuth 
-SRC = ${PROG}.c reg.c current_date.c
-OBJ = DevAuth.o reg.o current_date.o
-CC = gcc
 
-${PROG}:${OBJ}
-	${CC} -o ${PROG} ${OBJ} -lncurses
-%.o:%.c
-	${CC} ${CFLAGS} -c $< -o $@  
-.PHONY: clean
+CC        = gcc
+CFLAGS    = -Wall -Wextra
+MD        = mkdir
+BINPREFIX = ../build
+BUILD_DIR = $(BINPREFIX)/$(shell basename $(CURDIR))
+SRCS      = $(wildcard *.c)
+BINS      = $(patsubst %.c, $(BUILD_DIR)/%, $(SRCS))
+
+all: $(BINS)
+
+$(BUILD_DIR):
+	$(MD) -p $(BUILD_DIR)
+
+$(BINS): $(BUILD_DIR)/%: %.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+.PHONY clean all
 clean:
-	rm -f ${OBJ} ${PROG} 
+	rm -rf $(BUILD_DIR)
