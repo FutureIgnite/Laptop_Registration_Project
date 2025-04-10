@@ -2,7 +2,7 @@
 #ifndef HEADER_FILES_H
 #define HEADER_FILES_H
 #include <sqlite3.h>
-#include <ncurses.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
