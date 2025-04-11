@@ -36,6 +36,8 @@ int register_student (Entry*);
 int register_laptop (Entry*);
 void init_current_date (Entry*);
 Entry* lookup_db (const char*);
-struct tm* current_date();
-
+void display (Entry *entry);
+int prompt (Entry*);
+int save_data (Entry*);
+int db_init ();
 #endif
