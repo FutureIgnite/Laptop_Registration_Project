@@ -6,6 +6,7 @@ void guide (int *opt) {
 
     printf ("%s%s\t\t0 :  AUTHENTICATE STUDENT\n", TC_YEL, TC_NRM);
     printf ("%s%s\t\t1 :  REGISTER STUDENT\n", TC_YEL, TC_NRM);
+    printf ("\t\t\tInput: ");
     scanf ("%i", &(*opt));
     flush_input_buff();
 }
@@ -48,14 +49,28 @@ int prompt (Entry *entry) {
                 break;
             case 0:
                 do {
-                    printf ("\n\n\t\tEnter students registation number: ");
+                    printf ("\n\n\t\t %s%s Enter students registation number: ", TC_B_BLU, TC_NRM);
                     fgets (reg_no, sizeof (reg_no), stdin);
                     add_terminator (reg_no);
-                    if (!(stdnt = lookup_db (reg_no)))
+                    flush_input_buff ();
+                    if (!(stdnt = lookup_db (reg_no))){
                         fprintf (stderr, "\t\tStudent dont exists\n");
-                    else
+                        goto label;
+                    } else {
                         display (stdnt);
-                    printf ("\t\tDo you want to search for another student(Y/N): ");
+                    }
+                    printf (" \t\tDoes the serial provided same as in the system ? (Y/N): ");
+                    scanf ("%c", &res);
+                    flush_input_buff ();
+                    if (res == 'N'){
+                        printf ("%s%s                                 REPORT                                   ",
+                                TC_RED, TC_NRM);
+                        if (flag_student (reg_no)) {
+                            fprintf (stderr, " \t\tCannot report student\n");
+                        }
+                    }
+                    label:
+                    printf (" \t\tAuthenticate another student (Y/N): ");
                     scanf ("%c", &res);
                     flush_input_buff ();
                     system ("clear");
