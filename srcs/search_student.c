@@ -31,17 +31,59 @@ Entry* lookup_db (const char *buff) {
 
     sqlite3_bind_text (stmt, 1, buff, -1, SQLITE_TRANSIENT);
 
+    int id;
+    char *col_text;
+
     if (sqlite3_step (stmt) == SQLITE_ROW) {
-        strcpy (stdnt -> student.student_name,   (char *)sqlite3_column_text (stmt, 2));
-        strcpy (stdnt -> student.reg_no,         (char *)sqlite3_column_text (stmt, 3));
-        strcpy (stdnt -> student.phone_no,       (char *)sqlite3_column_text (stmt, 4));
-        strcpy (stdnt -> student.y_of_study,     (char *)sqlite3_column_text (stmt, 5));
-
-        strcpy (stdnt -> laptop.model,           (char *)sqlite3_column_text (stmt, 6));
-        strcpy (stdnt -> laptop.serial_no,       (char *)sqlite3_column_text (stmt, 7));
-
-        strcpy (stdnt -> t_stamp.t_registration, (char *)sqlite3_column_text (stmt, 8));
         
+        col_text =  (char *)sqlite3_column_text (stmt, 1);
+        strncpy (stdnt -> student.student_name,   col_text ? col_text : "", sizeof (stdnt -> student.student_name) -1);
+        //add_terminator (stdnt -> student.student_name);
+
+        col_text =  (char *)sqlite3_column_text (stmt, 2);
+        strncpy (stdnt -> student.reg_no,         col_text ? col_text : "", sizeof (stdnt -> student.reg_no) -1);
+        //add_terminator (stdnt -> student.reg_no);
+
+        col_text =  (char *)sqlite3_column_text (stmt, 3);
+        strncpy (stdnt -> student.phone_no,       col_text ? col_text : "", sizeof (stdnt -> student.phone_no) -1);
+        //add_terminator (stdnt -> student.phone_no);
+
+        col_text =  (char *)sqlite3_column_text (stmt, 4);
+        strncpy (stdnt -> student.y_of_study,     col_text ? col_text : "", sizeof (stdnt -> student.y_of_study) -1);
+        //add_terminator (stdnt -> student.y_of_study);
+        
+        col_text =  (char *)sqlite3_column_text (stmt, 5);
+        strncpy (stdnt -> t_stamp.t_registration,  col_text ? col_text : "", sizeof (stdnt -> t_stamp.t_registration) -1);
+        //add_terminator (stdnt -> t_stamp.t_registration);
+        
+        id = sqlite3_column_int (stmt, 0);
+    }
+
+    sqlite3_finalize (stmt);
+
+    const char *sql_l = "SELECT * FROM laptops WHERE student_id = (?)";
+
+    if (sqlite3_prepare_v2 (db, sql_l, -1, &stmt, NULL) != SQLITE_OK) {
+        fprintf (stderr, "Error preparing statement (f_laptop): %s\n", sqlite3_errmsg (db));
+        sqlite3_close (db);
+        return NULL;
+    }
+
+    sqlite3_bind_int (stmt, 1, id);
+
+    if (sqlite3_step (stmt) == SQLITE_ROW){
+        
+        col_text = (char *)sqlite3_column_text (stmt, 3);
+        strncpy (stdnt -> laptop.model,           col_text ? col_text : "", sizeof (stdnt -> laptop.model) -1);
+        //add_terminator (stdnt -> laptop.model);
+
+        col_text =  (char *)sqlite3_column_text (stmt, 4);
+        strncpy (stdnt -> laptop.serial_no,       col_text ? col_text : "", sizeof (stdnt -> laptop.serial_no) -1);
+        //add_terminator (stdnt -> laptop.serial_no);
+
+       
+        sqlite3_finalize (stmt);
+        sqlite3_close (db);
         return stdnt;
     }
 
