@@ -35,6 +35,10 @@ typedef struct {
 int register_student (Entry*);
 int register_laptop (Entry*);
 void init_current_date (Entry*);
+void flush_input_buff ();
+void add_terminator (char*);
+void clear_console ();
+bool isEmpty (char, char*);
 Entry* lookup_db (const char*);
 void display (Entry *entry);
 int prompt (Entry*);
