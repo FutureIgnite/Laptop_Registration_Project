@@ -24,7 +24,7 @@ int db_init() {
         "phone_no TEXT NOT NULL,"
         "year_of_study TEXT NOT NULL,"
         "date_of_reg TEXT NOT NULL,"
-        "flaged TEXT NOT NULL ); "
+        "flaged TEXT NOT NULL CHECK(flaged IN ('Y', 'N')) DEFAULT 'N');"
         "CREATE TABLE IF NOT EXISTS laptops ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
         "student_id INTEGER NOT NULL,"
