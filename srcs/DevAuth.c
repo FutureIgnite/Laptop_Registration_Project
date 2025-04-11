@@ -1,7 +1,7 @@
 #include "../includes/header_files.h"
 #include "../includes/variables.h"
 
-int main (int argc, char** argv){
+int main (){
     Entry* entry = malloc (sizeof (Entry));
     if (entry == NULL) {
        fprintf (stderr, "%s\n", strerror(errno));
@@ -13,18 +13,20 @@ int main (int argc, char** argv){
     while (register_laptop (entry) == REG_ERR)
         printf ("Cannot register laptop.\n");
     
-    printf ("\n\t=============STUDENT RECORD===========================\n\n");
-    printf ("\t\tstudent name: %s\n", entry->student.student_name);
-    printf ("\t\tstdudent reg number: %s\n", entry->student.reg_no);
-    printf ("\t\tstudent phone number: %s\n", entry->student.phone_no);
-    printf ("\t\tstudent year of study: %s\n", entry->student.y_of_study);
-    if (strcmp(entry->t_stamp.t_registration, "NULL"))
-        printf ("\t\tdate of registration: %s\n", entry->t_stamp.t_registration);
+    printf ("\n\t%s%s            STUDENT RECORD                               %s%s\n\n", 
+              TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
+    printf ("\t\tstudent name            : %s\n", entry->student.student_name);
+    printf ("\t\tstdudent reg number     : %s\n", entry->student.reg_no);
+    printf ("\t\tstudent phone number    : %s\n", entry->student.phone_no);
+    printf ("\t\tstudent year of study   : %s\n", entry->student.y_of_study);
+    if (strcmp (entry->t_stamp.t_registration, "NULL"))
+        printf ("\t\tdate of registration    : %s\n", entry->t_stamp.t_registration);
     else
         fprintf (stderr, "\t\tDate of registration not set\n");
-    printf ("\t\tlaptop model: %s\n", entry->laptop.model);
-    printf ("\t\tlaptop serial number: %s\n", entry->laptop.serial_no);
-    printf ("\n\t=====================================================\n\n");
+    printf ("\t\tlaptop model            : %s\n", entry->laptop.model);
+    printf ("\t\tlaptop serial number    : %s\n", entry->laptop.serial_no);
+    printf ("\n\t%s%s                                                         %s%s\n\n",
+              TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
     free (entry);
     
     return 0; 
