@@ -1,21 +1,34 @@
-
-
 CC        = gcc
-CFLAGS    = -Wall -Wextra
-MD        = mkdir
-BINPREFIX = ../build
-BUILD_DIR = $(BINPREFIX)/$(shell basename $(CURDIR))
-SRCS      = $(wildcard *.c)
-BINS      = $(patsubst %.c, $(BUILD_DIR)/%, $(SRCS))
+CFLAGS    = -Wall -Wextra -g
+#LIBS      = -lsqlite3
 
-all: $(BINS)
+SRC_DIR   = srcs
+BUILD_DIR = build
+BIN_DIR   = bin
 
-$(BUILD_DIR):
-	$(MD) -p $(BUILD_DIR)
+SRCS      = $(wildcard $(SRC_DIR)/*.c)
+OBJS      = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
-$(BINS): $(BUILD_DIR)/%: %.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) $< -o $@
+TARGET    = $(BIN_DIR)/DevAuth
 
-.PHONY clean all
+.PHONY: all setup clean
+
+all: setup $(TARGET)
+	@echo "Source files: $(SRCS)"
+	@echo "Building $(TARGET)..."
+	@echo "Build complete."
+	@echo "Executable is located at $(TARGET)"
+
+setup:
+	@mkdir -p $(BUILD_DIR) $(BIN_DIR)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+	@echo "Linking objects..."
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@echo "Compiling source $<..."
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR) $(BIN_DIR)

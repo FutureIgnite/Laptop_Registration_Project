@@ -39,8 +39,9 @@ bool isEmpty (char newline, char *member) {
    return false;
 }
 void init_current_date (Entry* entry) {
-
-   struct tm *current_d = current_date();
+   time_t now;
+   time (&now);
+   struct tm *current_d = localtime (&now);
    if (current_d != NULL) {
       char date_str[11]; // Buffer to hold the formatted date string (dd-mm-yyyy + null terminator)
       if (!(strftime (date_str, sizeof(date_str), "%d-%m-%Y", current_d))) {
@@ -57,7 +58,7 @@ void init_current_date (Entry* entry) {
 int register_student (Entry* entry) {
    init_current_date (entry);
    
-   printf ("%s%s\n\t==============STUDENT DETAILS=========================\n%s%s",
+   printf ("%s%s\n\t               STUDENT DETAILS                           \n%s%s",
            TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
 
    label1:
@@ -156,7 +157,7 @@ int register_student (Entry* entry) {
 }
 
 int register_laptop (Entry* Laptop) {
-   printf ("%s%s\n\t==============LAPTOP DETAILS==========================\n%s%s", 
+   printf ("%s%s\n\t               LAPTOP DETAILS                            \n%s%s", 
            TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
 
    label5:
