@@ -1,20 +1,23 @@
 #include "../includes/header_files.h"
 
-void guide () {
+void guide (int *opt) {
     printf ("\n\n\t%s%s                    CHOOSE OPERATION                       %s%s\n\n", 
              TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
 
-    printf ("\t\t0 :  AUTHENTICATE STUDENT\n");
-    printf ("\t\t1 :  REGISTER STUDENT\n");
+    printf ("%s%s\t\t0 :  AUTHENTICATE STUDENT\n", TC_YEL, TC_NRM);
+    printf ("%s%s\t\t1 :  REGISTER STUDENT\n", TC_YEL, TC_NRM);
+    scanf ("%i", &(*opt));
+    flush_input_buff();
 }
 
 int prompt (Entry *entry) {
     int opt = 0, counter = 0; // option
-    char res = 'Y', des = 'N';//response descision
+    char res = 'Y', des = 'N';//response and descision
     char reg_no[20];
     Entry *stdnt = NULL;
-    guide ();
-    while (des != 'Q' || des != 'q') {
+
+    do  {
+        guide (&opt);
         switch (opt) {
             case 1:
                 do {
@@ -38,7 +41,7 @@ int prompt (Entry *entry) {
                     flush_input_buff ();
                     system ("clear");
                     ++counter;
-                } while (res != 'N');
+                } while (res == 'Y');
                 printf ("\t\t%i students successfully registered\n", counter);
                 sleep (1);
                 system ("clear");
@@ -56,14 +59,15 @@ int prompt (Entry *entry) {
                     scanf ("%c", &res);
                     flush_input_buff ();
                     system ("clear");
-                } while (res != 'N');
+                } while (res == 'Y');
                 break;            
         }
         
-        printf ("\t\tquit (Q) cancel (C): ");
+        printf ("\n\n%s%s\t\tQUIT (Q) CONTINUE (C) %s%s", TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
+        printf ("Input: ");
         scanf ("%c", &des);
         flush_input_buff ();
-    }
+    } while (des == 'C' || des == 'c');
 
     return 0;
 }
