@@ -1,5 +1,5 @@
 #include "../includes/header_files.h"
-    
+
 int save_data (Entry *entry){
     sqlite3 *db;
     
@@ -13,7 +13,7 @@ int save_data (Entry *entry){
     const char *sql_s = "INSERT INTO students ("
         "name, reg_no, phone_no, year_of_study, date_of_reg) VALUES (?, ?, ?, ?, ?)";
 
-    const char *sql_l = "INSERT INTO laptops (student_id, model, serial_no), VALUES (?, ?, ?)";
+    const char *sql_l = "INSERT INTO laptops (student_id, model, serial_no) VALUES (?, ?, ?)";
 
     if (sqlite3_prepare_v2 (db, sql_s, -1, &stmt, NULL) != SQLITE_OK) {
         fprintf (stderr, "Error preparing statement (write_db_s): %s\n", sqlite3_errmsg (db));
