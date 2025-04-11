@@ -44,4 +44,5 @@ void display (Entry *entry);
 int prompt (Entry*);
 int save_data (Entry*);
 int db_init ();
+int flag_student (const char*);
 #endif
