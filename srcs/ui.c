@@ -1,50 +1,58 @@
 #include "../includes/header_files.h"
 
+void guide () {
+    printf ("\n\n\t%s%s                    CHOOSE OPERATION                       %s%s\n\n", 
+             TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
+
+    printf ("\t\t0 :  AUTHENTICATE STUDENT\n");
+    printf ("\t\t1 :  REGISTER STUDENT\n");
+}
 
 int prompt (Entry *entry) {
     int opt = 0, counter = 0; // option
     char res = 'Y', des = 'N';//response descision
     char reg_no[20];
     Entry *stdnt = NULL;
+    guide ();
     while (des != 'Q' || des != 'q') {
         switch (opt) {
             case 1:
                 do {
                     if (register_student (entry) == REG_ERR) {
-                        fprintf (stderr, "Cannot register student\n");
+                        fprintf (stderr, "\t\tCannot register student\n");
                         break;
                     }
              
                     if (register_laptop (entry) == REG_ERR) {
-                        fprintf (stderr, "Cannot register laptop\n");
+                        fprintf (stderr, "\t\tCannot register laptop\n");
                         break;
                     }
 
                     if (save_data (entry)) 
-                        printf ("Student not saved\n");
+                        printf ("\t\tStudent not saved\n");
                     else
-                        printf ("Student saved successfully\n");
+                        printf ("\t\tStudent saved successfully\n");
                     
-                    printf ("Do you want to register another student? (Y/N) : ");
+                    printf ("\t\tDo you want to register another student? (Y/N) : ");
                     scanf ("%c", &res);
                     flush_input_buff ();
                     system ("clear");
                     ++counter;
                 } while (res != 'N');
-                printf ("%i students successfully registered\n", counter);
+                printf ("\t\t%i students successfully registered\n", counter);
                 sleep (1);
                 system ("clear");
                 break;
             case 0:
                 do {
-                    printf ("Enter students registation number: ");
+                    printf ("\n\n\t\tEnter students registation number: ");
                     fgets (reg_no, sizeof (reg_no), stdin);
                     add_terminator (reg_no);
                     if (!(stdnt = lookup_db (reg_no)))
-                        fprintf (stderr, "Student dont exists\n");
+                        fprintf (stderr, "\t\tStudent dont exists\n");
                     else
                         display (stdnt);
-                    printf ("Do you want to search for another student(Y/N): ");
+                    printf ("\t\tDo you want to search for another student(Y/N): ");
                     scanf ("%c", &res);
                     flush_input_buff ();
                     system ("clear");
@@ -52,7 +60,7 @@ int prompt (Entry *entry) {
                 break;            
         }
         
-        printf ("quit (Q) cancel (C): ");
+        printf ("\t\tquit (Q) cancel (C): ");
         scanf ("%c", &des);
         flush_input_buff ();
     }
@@ -61,7 +69,7 @@ int prompt (Entry *entry) {
 }
 
 void display (Entry *entry){
-    printf ("\n\t%s%s            STUDENT RECORD                               %s%s\n\n", 
+    printf ("\n\n\t%s%s            STUDENT RECORD                               %s%s\n\n", 
               TC_CYN, TC_BG_WHT, TC_NRM, TC_BG_NRM);
     printf ("\t\tstudent name            : %s\n", entry->student.student_name);
     printf ("\t\tstdudent reg number     : %s\n", entry->student.reg_no);
