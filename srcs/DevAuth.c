@@ -1,6 +1,8 @@
 #include "../includes/header_files.h"
 
 int main () {
+
+    create_new_screen();
     if (db_init ()) {
         fprintf (stderr, "Could not initialize a database\n");
         exit (EXIT_FAILURE);
@@ -17,5 +19,6 @@ int main () {
     prompt (entry);
     free (entry);
     
+    exit_screen();
     return 0; 
 }
