@@ -32,19 +32,20 @@ Entry* lookup_db (const char *buff) {
     sqlite3_bind_text (stmt, 1, buff, -1, SQLITE_TRANSIENT);
 
     if (sqlite3_step (stmt) == SQLITE_ROW) {
-        strcpy (stdnt -> student.student_name,   (char *)sqlite3_column_text (stmt, 2));
-        strcpy (stdnt -> student.reg_no,         (char *)sqlite3_column_text (stmt, 3));
-        strcpy (stdnt -> student.phone_no,       (char *)sqlite3_column_text (stmt, 4));
-        strcpy (stdnt -> student.y_of_study,     (char *)sqlite3_column_text (stmt, 5));
+        strcpy (stdnt -> student.student_name,   (char *)sqlite3_column_text (stmt, 1));
+        strcpy (stdnt -> student.reg_no,         (char *)sqlite3_column_text (stmt, 2));
+        strcpy (stdnt -> student.phone_no,       (char *)sqlite3_column_text (stmt, 3));
+        strcpy (stdnt -> student.y_of_study,     (char *)sqlite3_column_text (stmt, 4));
 
-        strcpy (stdnt -> laptop.model,           (char *)sqlite3_column_text (stmt, 6));
-        strcpy (stdnt -> laptop.serial_no,       (char *)sqlite3_column_text (stmt, 7));
+        strcpy (stdnt -> laptop.model,           (char *)sqlite3_column_text (stmt, 5));
+        strcpy (stdnt -> laptop.serial_no,       (char *)sqlite3_column_text (stmt, 6));
 
-        strcpy (stdnt -> t_stamp.t_registration, (char *)sqlite3_column_text (stmt, 8));
+        strcpy (stdnt -> t_stamp.t_registration, (char *)sqlite3_column_text (stmt, 7));
         
         return stdnt;
     }
 
+    sqlite3_finalize(stmt);
     sqlite3_close (db);
     return NULL;        
 
