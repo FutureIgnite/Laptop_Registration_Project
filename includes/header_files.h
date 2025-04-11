@@ -11,7 +11,6 @@
 #include <string.h>
 #include "variables.h"
 #include "terminal_color.h"
-#include "definitions.h"
 #include <errno.h>
 #include <time.h>
 #endif
