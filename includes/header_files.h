@@ -4,6 +4,7 @@
 #include <sqlite3.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <ncurses.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
