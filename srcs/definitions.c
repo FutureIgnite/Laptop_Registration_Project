@@ -8,12 +8,17 @@ void flush_input_buff () {
 
 }
 
-void add_terminator (char *string) {
+void add_terminator (char *string, int size, int length) {
 
-   if (strchr(string, '\n')) //check for instance of newline and replace it with null
+   if (strchr(string, '\n')){ //check for instance of newline and replace it with null
      string[strcspn(string, "\n")] = '\0';
-   else 
-     flush_input_buff ();
+   return;
+   }
+   if (size - 1 == length) {
+      fprintf (stdin, " ");
+      string[sizeof(string) -1] = '\0';
+      flush_input_buff ();
+   }
 
 }
 
