@@ -22,6 +22,7 @@ int prompt (Entry *entry) {
         switch (opt) {
             case 1:
                 do {
+                    system ("clear");
                     if (register_student (entry) == REG_ERR) {
                         fprintf (stderr, "\t\tCannot register student\n");
                         break;
@@ -40,7 +41,6 @@ int prompt (Entry *entry) {
                     printf ("\t\tDo you want to register another student? (Y/N) : ");
                     scanf ("%c", &res);
                     flush_input_buff ();
-                    system ("clear");
                     ++counter;
                 } while (res == 'Y');
                 printf ("\t\t%i students successfully registered\n", counter);
@@ -49,10 +49,9 @@ int prompt (Entry *entry) {
                 break;
             case 0:
                 do {
-                    printf ("\n\n\t\t %s%s Enter students registation number: ", TC_B_BLU, TC_NRM);
+                    printf ("\n\n\t\t%s%s Enter students registation number: ", TC_B_BLU, TC_NRM);
                     fgets (reg_no, sizeof (reg_no), stdin);
-                    add_terminator (reg_no);
-                    flush_input_buff ();
+                    add_terminator (reg_no, sizeof (reg_no), strlen (reg_no));
                     if (!(stdnt = lookup_db (reg_no))){
                         fprintf (stderr, "\t\tStudent dont exists\n");
                         goto label;
@@ -63,7 +62,7 @@ int prompt (Entry *entry) {
                     scanf ("%c", &res);
                     flush_input_buff ();
                     if (res == 'N'){
-                        printf ("%s%s                                 REPORT                                   ",
+                        printf ("                                 %sREPORTING...%s                                   \n",
                                 TC_RED, TC_NRM);
                         if (flag_student (reg_no)) {
                             fprintf (stderr, " \t\tCannot report student\n");
