@@ -20,29 +20,29 @@ typedef struct {
 } time_stamp;
 
 typedef struct {
-   time_stamp t_stamp;
-   laptop_details laptop;
+   time_stamp      t_stamp;
+   laptop_details  laptop;
    student_details student;
 } Entry;
 
 //...macros...
-#define REG_OK 0
+#define REG_OK  0
 #define REG_ERR 1
 #define create_new_screen() puts ("\033[?1049h\033[H")
-#define exit_screen() puts ("\033[?1049l")
+#define exit_screen()       puts ("\033[?1049l")
 
 //....function declarations...
-int register_student (Entry*);
-int register_laptop (Entry*);
+int register_student   (Entry*);
+int register_laptop    (Entry*);
 void init_current_date (Entry*);
-void flush_input_buff ();
-void add_terminator (char*);
-void clear_console ();
-bool isEmpty (char, char*);
-Entry* lookup_db (const char*);
-void display (Entry *entry);
-int prompt (Entry*);
-int save_data (Entry*);
-int db_init ();
-int flag_student (const char*);
+void flush_input_buff  ();
+void add_terminator    (char*, int, int);
+void clear_console     ();
+bool isEmpty           (char, char*);
+Entry* lookup_db       (const char*);
+void display           (Entry *entry);
+int prompt             (Entry*);
+int save_data          (Entry*);
+int db_init            ();
+int flag_student       (const char*);
 #endif
