@@ -73,11 +73,11 @@ Entry* lookup_db (const char *buff) {
 
     if (sqlite3_step (stmt) == SQLITE_ROW){
         
-        col_text = (char *)sqlite3_column_text (stmt, 3);
+        col_text = (char *)sqlite3_column_text (stmt, 2);
         strncpy (stdnt -> laptop.model,           col_text ? col_text : "", sizeof (stdnt -> laptop.model) -1);
         //add_terminator (stdnt -> laptop.model);
 
-        col_text =  (char *)sqlite3_column_text (stmt, 4);
+        col_text =  (char *)sqlite3_column_text (stmt, 3);
         strncpy (stdnt -> laptop.serial_no,       col_text ? col_text : "", sizeof (stdnt -> laptop.serial_no) -1);
         //add_terminator (stdnt -> laptop.serial_no);
 
