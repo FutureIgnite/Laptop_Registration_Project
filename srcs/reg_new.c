@@ -1,9 +1,5 @@
 #include "../includes/header_files.h"
 
-//this function consumes the remaining characters in the input buffer to avoid subsequent call to funtions
-//that require input taking in what is left on the input buffer
-
-
 int register_student (Entry* entry) {
    init_current_date (entry);
    
@@ -12,7 +8,7 @@ int register_student (Entry* entry) {
 
    label1:
 
-   printf ("%s%s\t\tEnter student name:  ", TC_BLU, TC_NRM);
+   printf ("%s\t\tEnter student name:  %s", TC_BLU, TC_NRM);
    
    if (fgets (entry -> student.student_name, sizeof (entry -> student.student_name), stdin) != NULL) {
       if (isEmpty (entry -> student.student_name[0], "Student Name")) {
@@ -24,7 +20,8 @@ int register_student (Entry* entry) {
          clear_console ();
          goto label1;
       }
-      add_terminator (entry -> student.student_name); //check for instance of newline and replace it with null
+      add_terminator (entry -> student.student_name, sizeof (entry -> student.reg_no),
+                      strlen (entry -> student.reg_no)); //check for instance of newline and replace it with null
    }else {
       fprintf (stderr, "\t\tError reading student name %s\n", strerror (errno));
       return  (REG_ERR); //REG_ERR macro defined in variables.h exands to 1
@@ -32,7 +29,7 @@ int register_student (Entry* entry) {
 
    label2:
 
-   printf ("%s%s\t\tEnter student registration number:  ", TC_BLU, TC_NRM);
+   printf ("%s\t\tEnter student registration number:  %s", TC_BLU, TC_NRM);
    
    if ((fgets (entry -> student.reg_no, sizeof (entry -> student.reg_no), stdin)) != NULL) {
       if (isEmpty (entry -> student.reg_no[0], "Student Registration Number")) {
@@ -52,7 +49,8 @@ int register_student (Entry* entry) {
             goto label2;
          }
       }
-      add_terminator (entry -> student.reg_no); 
+      add_terminator (entry -> student.reg_no, sizeof (entry -> student.reg_no),
+                      strlen (entry -> student.reg_no)); 
    } else {
       fprintf (stderr, "\t\tError reading registration number.\n");
       return (REG_ERR);
@@ -75,7 +73,8 @@ int register_student (Entry* entry) {
             goto label3;
          }
       }
-      add_terminator (entry -> student.phone_no);
+      add_terminator (entry -> student.phone_no, sizeof (entry -> student.reg_no),
+                      strlen (entry -> student.reg_no));
    }else {
       fprintf (stderr, "\t\tError reading phone number.\n");
       return (REG_ERR);
@@ -96,7 +95,8 @@ int register_student (Entry* entry) {
             goto label4;
          }
       }   
-      add_terminator (entry -> student.y_of_study);
+      add_terminator (entry -> student.y_of_study, sizeof (entry -> student.reg_no),
+                      strlen (entry -> student.reg_no));
    }else {
       fprintf (stderr, "\t\tError reading year of study.\n");
       return  (REG_ERR);
@@ -117,7 +117,8 @@ int register_laptop (Entry* Laptop) {
       if (isEmpty (Laptop -> laptop.model[0], "Laptop model")) {
          goto label5;
       }
-      add_terminator (Laptop -> laptop.model);
+      add_terminator (Laptop -> laptop.model, sizeof (Laptop -> student.reg_no),
+                      strlen (Laptop -> student.reg_no));
    }else {
       fprintf (stderr, "\t\tError reading laptop model %s\n", strerror (errno));
       return  (REG_ERR);
@@ -131,7 +132,8 @@ int register_laptop (Entry* Laptop) {
       if (isEmpty (Laptop -> laptop.serial_no[0], "Serial Number")) {
          goto label6;
       }
-      add_terminator (Laptop -> laptop.serial_no);
+      add_terminator (Laptop -> laptop.serial_no, sizeof (Laptop -> student.reg_no),
+                      strlen (Laptop -> student.reg_no));
    }else {
       fprintf (stderr, "\t\tError reading laptop serial number %s\n", strerror (errno));
       return  (REG_ERR);
