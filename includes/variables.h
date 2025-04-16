@@ -32,17 +32,21 @@ typedef struct {
 #define exit_screen()       puts ("\033[?1049l")
 
 //....function declarations...
-int register_student   (Entry*);
-int register_laptop    (Entry*);
-void init_current_date (Entry*);
-void flush_input_buff  ();
-void add_terminator    (char*, int, int);
-void clear_console     ();
-bool isEmpty           (char, char*);
+int register_student   (Entry*, WINDOW *);
+int register_laptop    (Entry*, WINDOW *);
+void init_current_date (Entry*, WINDOW *);
+void flush_input_buff  (WINDOW *);
+void add_terminator    (char*, int, int, WINDOW *);
+void clear_console     (int, WINDOW *);
+bool isEmpty           (char, char*, WINDOW *);
 Entry* lookup_db       (const char*);
-void display           (Entry *entry);
+void display           (Entry *entry, WINDOW *);
 int prompt             (Entry*);
 int save_data          (Entry*);
 int db_init            ();
 int flag_student       (const char*);
+char guide             (WINDOW *);
+int report_lost        (const char *);
+void help_method       (WINDOW *);
+
 #endif
