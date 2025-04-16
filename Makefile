@@ -1,6 +1,6 @@
 CC        = gcc
 CFLAGS    = -Wall -Wextra -g
-LIBS      = -lsqlite3
+LIBS      = -lsqlite3 -lncurses
 
 SRC_DIR   = srcs
 BUILD_DIR = build
