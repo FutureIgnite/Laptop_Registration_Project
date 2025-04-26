@@ -1,12 +1,12 @@
 # <ins>Soving Rising🚀 Laptops ***Theft*** Cases</ins></br>
 ## Modules lists</br>
-- [ ] Registration module</br>
-- [ ] Database module</br>
-- [ ] Load module</br>
+- [X] Registration module</br>
+- [X] Database module</br>
+- [X] Load module</br>
      -To load data from database to the main memory</br>
-- [ ] Flag module</br>
-- [ ] Main program module</br>
-- [ ] Header files and variables</br>
+- [X] Flag module</br>
+- [X] Main program module</br>
+- [X] Header files and variables</br>
 # Contibution</br>
 > [!IMPORTANT]
 > We need to make sure we meet out set targets i.e</br>
