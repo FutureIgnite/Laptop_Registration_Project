@@ -1,4 +1,4 @@
-# <ins>Soving Rising🚀 Laptops ***Theft*** Cases</ins></br>
+# <ins>Soving Rising🚀 Laptops ***Theft*** Cases on Institutions</ins></br>
 ## Modules lists</br>
 - Registration module</br>
 - Database module</br>
