@@ -2,7 +2,4 @@ build/
 */build/
 bin/
 dup/
-<<<<<<< HEAD
-=======
 *.db
->>>>>>> 281c574 (Implement core functionality for Laptop Registration Project, including Dockerfile setup, Makefile, and source files for student and laptop registration, database initialization, and user interface.)
