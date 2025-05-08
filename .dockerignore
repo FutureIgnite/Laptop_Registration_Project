@@ -1,0 +1,6 @@
+build/
+*/build/
+bin/
+dup/
+*.db
+*.md

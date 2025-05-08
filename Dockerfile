@@ -13,9 +13,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY . .
 
-RUN make
+RUN make && chmod +x /app/bin/DevAuth
 
-FROM scratch
+# -- Final stage --
+FROM alpine
+
+# Install glibc compatibility layer (Alpine uses musl by default)
+RUN apk add --no-cache libc6-compat
 
 COPY --from=builder /app/bin/DevAuth /usr/local/bin/DevAuth
 
