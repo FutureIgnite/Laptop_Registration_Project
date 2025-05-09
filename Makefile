@@ -1,5 +1,5 @@
 CC        = gcc
-CFLAGS    = -Wall -Wextra -g
+CFLAGS    = -Wall -Wextra -std=c89 -g
 LIBS      = -lsqlite3 -lncurses
 
 SRC_DIR   = srcs
@@ -31,4 +31,4 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	rm -rf $(BUILD_DIR)
