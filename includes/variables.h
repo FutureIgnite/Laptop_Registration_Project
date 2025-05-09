@@ -33,6 +33,7 @@ typedef struct
 #define create_new_screen() (puts("\033[?1049h\033[H"))
 #define exit_screen() (puts("\033[?1049l"))
 #define R refresh()
+#define R2(str) wrefresh (str)
 #define DATABASE "records.db"
 #define CHECK_SQLITE(rc, db, label, msg) \
    do { \
