@@ -31,14 +31,14 @@ void clear_console (int time, WINDOW * child) {
    return;
 }
 
-bool isEmpty (char newline, char *member, WINDOW * child) {
+int isEmpty (char newline, char *member, WINDOW * child) {
 
    if (newline == '\n') {
       wprintw (child, "\t\t%s should not be empty\n", member); wrefresh (child);
       clear_console (1, child);
-      return true;
+      return 1;
    }
-   return false;
+   return 0;
 }
 void init_current_date (Entry* entry, WINDOW * child) {
    time_t now;
