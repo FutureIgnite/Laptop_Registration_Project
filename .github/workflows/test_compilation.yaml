@@ -70,7 +70,7 @@ jobs:
             });
       
       - name: Fallback - Commit report to Repo if Issue Creation fails
-        if: steps.create_issue.outcome == 'failure'
+        if: failure() && github.event_name != 'pull_request'
         run: |
           mkdir -p reports
           cp memory_leaks_report.txt reports/memory_leaks_report_$(date +%Y%m%d%H%M%S).txt
@@ -79,6 +79,7 @@ jobs:
           git add reports/
           git commit -m "chore: add fallback memory leak report"
           git push
+
 
       - name: Clean Up
         run: |
