@@ -17,8 +17,8 @@ jobs:
 
       - name: Set Up Make Environment
         run: |
-          apt-get update
-          apt-get install -y make gcc libsqlite3-dev valgrind libxml2-utils xmlstarlet
+          sudo apt-get update
+          sudo apt-get install -y make gcc libsqlite3-dev valgrind libxml2-utils xmlstarlet
 
       - name: Compile Mulapizi
         run: |
