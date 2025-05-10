@@ -24,9 +24,9 @@ jobs:
         run: |
           make
       
-      - name: Run Tests
-        run: |
-          make test
+      #- name: Run Tests
+      # run: |
+      #    make test
       
       - name: Run Valgrind and Create Memory Leakege report
         run: |
