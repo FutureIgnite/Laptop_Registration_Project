@@ -33,6 +33,13 @@ jobs:
           printf "Q" | valgrind --leak-check=full --track-origins=yes --xml=yes --xml-file=memory_leaks_report.txt ./bin/DevAuth || true
           chmod +x report.sh && ./report.sh
 
+      - name: Read memory leak report
+        id: read_report
+        run: |
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat memory_leaks_report.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Comment Memory Leak Report on PR
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v2
@@ -44,23 +51,23 @@ jobs:
             $(cat memory_leaks_report.txt)
             ```
 
-      # - name: Open Issue for Memory Leak Report on Push
-      #   id: create_issue
-      #   if: github.event_name != 'pull_request'
-      #   uses: actions/github-script@v4
-      #   continue-on-error: true
-      #   with:
-      #     script: |
-      #       const fs = require('fs');
-      #       const report = fs.readFileSync('memory_leaks_report.txt', 'utf8');
-      #       const issueTitle = "Memory Leak Report";
-      #       const issueBody = `**Memory Leaks Report**\n\n\`\`\`\n${report}\n\`\`\``;
-      #       await github.issues.create({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         title: issueTitle,
-      #         body: issueBody
-      #       });
+      - name: Open Issue for Memory Leak Report on Push
+        id: create_issue
+        if: github.event_name != 'pull_request'
+        uses: actions/github-script@v4
+        continue-on-error: true
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('memory_leaks_report.txt', 'utf8');
+            const issueTitle = "Memory Leak Report";
+            const issueBody = `**Memory Leaks Report**\n\n\`\`\`\n${report}\n\`\`\``;
+            await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody
+            });
       
       - name: Fallback - Commit report to Repo if Issue Creation fails
         if: steps.create_isssue.outcome == "failure"
