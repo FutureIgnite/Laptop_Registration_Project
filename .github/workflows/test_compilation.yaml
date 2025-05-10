@@ -70,7 +70,7 @@ jobs:
             });
       
       - name: Fallback - Commit report to Repo if Issue Creation fails
-        if: steps.create_isssue.outcome == "failure"
+        if: steps.create_issue.outcome == 'failure'
         run: |
           mkdir -p reports
           cp memory_leaks_report.txt reports/memory_leaks_report_$(date +%Y%m%d%H%M%S).txt
