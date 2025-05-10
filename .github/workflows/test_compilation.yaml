@@ -44,21 +44,34 @@ jobs:
             $(cat memory_leaks_report.txt)
             ```
 
-      - name: Open Issue for Memory Leak Report on Push
-        if: github.event_name != 'pull_request'
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const fs = require('fs');
-            const report = fs.readFileSync('memory_leaks_report.txt', 'utf8');
-            const issueTitle = "Memory Leak Report";
-            const issueBody = `**Memory Leaks Report**\n\n\`\`\`\n${report}\n\`\`\``;
-            await github.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: issueTitle,
-              body: issueBody
-            });
+      # - name: Open Issue for Memory Leak Report on Push
+      #   id: create_issue
+      #   if: github.event_name != 'pull_request'
+      #   uses: actions/github-script@v4
+      #   continue-on-error: true
+      #   with:
+      #     script: |
+      #       const fs = require('fs');
+      #       const report = fs.readFileSync('memory_leaks_report.txt', 'utf8');
+      #       const issueTitle = "Memory Leak Report";
+      #       const issueBody = `**Memory Leaks Report**\n\n\`\`\`\n${report}\n\`\`\``;
+      #       await github.issues.create({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         title: issueTitle,
+      #         body: issueBody
+      #       });
+      
+      - name: Fallback - Commit report to Repo if Issue Creation fails
+        if: steps.create_isssue.outcome == "failure"
+        run: |
+          mkdir -p reports
+          cp memory_leaks_report.txt reports/memory_leaks_report_$(date +%Y%m%d%H%M%S).txt
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add reports/
+          git commit -m "chore: add fallback memory leak report"
+          git push
 
       - name: Clean Up
         run: |
