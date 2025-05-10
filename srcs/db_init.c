@@ -1,104 +1,122 @@
+/* Ensure C89 Standard Adhreance */
+
 #include "../includes/header_files.h"
-#define R refresh ()
-int db_init() {
 
-    sqlite3 *db;
+/**
+ * db_init - Initialized the SQLite database and creates the required tables
+ *
+ * Return: 0 on success, 1 on failure
+ */
 
-    if (sqlite3_open ("records.db", &db) != SQLITE_OK) {
-        printw ("Can't initialize database: %s\n", sqlite3_errmsg(db)); R;
+int db_init(void)
+{
+    sqlite3 *db = NULL;
+    sqlite3_stmt *stmt = NULL;
+
+    if (sqlite3_open(DATABASE, &db) != SQLITE_OK) {
+        printw("Can't initialize database: %s\n", sqlite3_errmsg(db)); R;
         return 1;
     }
 
-    printw ("Opened database successfully\n"); R;
+    printw("Opened database successfully\n"); R;
     
-    // SQL to create tables
-    
-    sqlite3_stmt *stmt;
+    /* SQL Query to create database tables */
 
     const char *sql_foreign_key_enable = "PRAGMA foreign_keys = ON";
-    const char *sql_st = 
+    const char *sql_st =
         "CREATE TABLE IF NOT EXISTS students ("
-        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "name TEXT NOT NULL,"
-        "reg_no TEXT NOT NULL,"
-        "phone_no TEXT NOT NULL,"
-        "year_of_study TEXT NOT NULL,"
-        "date_of_reg TEXT NOT NULL,"
-        "flaged TEXT NOT NULL CHECK(flaged IN ('Y', 'N')) DEFAULT 'N');"
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "name TEXT NOT NULL, "
+        "reg_no TEXT NOT NULL, "
+        "phone_no TEXT NOT NULL, "
+        "year_of_study TEXT NOT NULL, "
+        "date_of_reg TEXT NOT NULL, "
+        "flaged TEXT NOT NULL CHECK(flaged IN ('Y','N')) DEFAULT 'N'"
+        ");"
         "CREATE TABLE IF NOT EXISTS laptops ("
-        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "student_id INTEGER NOT NULL,"
-        "model TEXT NOT NULL,"
-        "serial_no TEXT NOT NULL,"
-        "FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE);";
-    const char *sqlTail;
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "student_id INTEGER NOT NULL, "
+        "model TEXT NOT NULL, "
+        "serial_no TEXT NOT NULL, "
+        "FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE"
+        ");";
 
-    if (sqlite3_prepare_v2 (db, sql_st, -1, &stmt, &sqlTail) != SQLITE_OK){
-        printw ("Error praparing statement (student_table): %s\n", sqlite3_errmsg (db)); R;
-        sqlite3_close (db);
+    const char *sqlTail = NULL;
+    int rc = 0;
+
+    rc = sqlite3_open(DATABASE, &db);
+    if (rc != SQLITE_OK)
+    {
+        printw("Error opening database: %s\n", sqlite3_errmsg(db)); R;
         return 1;
     }
+    printw("Database Opened Successfully!\n"); R;
 
-    if (sqlite3_step (stmt) != SQLITE_DONE){
-        printw ("Error executing statement (student_table): %s\n", sqlite3_errmsg (db)); R;
-        sqlite3_finalize (stmt);
-        sqlite3_close (db);
-        return 1;
-    }
+    /* Prepare student table creation */
+    rc = sqlite3_prepare_v2(db, sql_st, -1, &stmt, &sqlTail);
+    CHECK_SQLITE(rc, db, cleanup, "Error preparing statement (student table)");
+
+    /* Create student table(execution) */
+    rc = sqlite3_step(stmt);
+    CHECK_SQLITE(rc, db, cleanup, "Error executing statement (student table)");
+
+    sqlite3_finalize(stmt);
+    stmt = NULL;
+
+    /* Prepare laptop table */
+    rc = sqlite3_prepare_v2(db, sqlTail, -1, &stmt, NULL);
+    CHECK_SQLITE(rc, db, cleanup, "Error preparing statement (laptop table)");
+
+    /* execution of laptop table query */
+    rc = sqlite3_step(stmt);
+    CHECK_SQLITE(rc, db, cleanup, "Error executing statement (laptop table)");
+
+    sqlite3_finalize(stmt);
+    stmt = NULL;
+
+    /* Enable Foreign key creation */
+    rc = sqlite3_prepare_v2(db, sql_foreign_key_enable, -1, &stmt, NULL);
+    CHECK_SQLITE(rc, db, cleanup, "Error preparing statement (foreign keys)");
     
-    sqlite3_finalize (stmt);
+    rc = sqlite3_step(stmt);
+    CHECK_SQLITE(rc, db, cleanup, "Error executing statement (foreign keys)");
 
-    if (sqlite3_prepare_v2 (db, sqlTail, -1, &stmt, NULL) != SQLITE_OK){
-        printw ("Error preparing statement (laptops_table): %s\n", sqlite3_errmsg (db)); R;
-        sqlite3_close (db);
-        return 1;
+cleanup:
+    if (stmt != NULL)
+    {
+        sqlite3_finalize(stmt);
+    }
+    if (db != NULL)
+    {
+        sqlite3_close(db);
     }
 
-    if (sqlite3_step (stmt) != SQLITE_DONE){
-        printw ("Error executing statement (laptops_table): %s\n", sqlite3_errmsg (db)); R;
-        sqlite3_finalize (stmt);
-        sqlite3_close (db);
-        return 1;
-    }
-
-    sqlite3_finalize (stmt);
-
-    if (sqlite3_prepare_v2 (db, sql_foreign_key_enable, -1, &stmt, NULL) != SQLITE_OK){
-        printw ("Error preparing statement (foreign_key): %s\n", sqlite3_errmsg (db)); R;
-        sqlite3_close (db);
-        return 1;
-    }
-
-    if (sqlite3_step (stmt) != SQLITE_DONE){
-        printw ("Error executing statement (foreign_keys): %s\n", sqlite3_errmsg (db)); R;
-        sqlite3_finalize (stmt);
-        sqlite3_close (db);
-        return 1;
-    }
-
-    sqlite3_finalize (stmt);
-    sqlite3_close (db);
-
-    return 0;
+    return (rc == SQLITE_OK || rc == SQLITE_DONE) ? 0: 1;
 }
 
-Entry* lookup_db (const char *buff) {
-    Entry *stdnt;
+/**
+ * lookup_db - Searches for a student in the database using their registration number
+ * @buff: The registration number to search for
+ *
+ * Return: Pointer to the Entry struct containing student details, or NULL on failure
+ */
+Entry* lookup_db (const char *buff)
+{
+    Entry *stdnt = NULL;
+    sqlite3 *db = NULL;
+    sqlite3_stmt *stmt = NULL;
 
     if (!(stdnt = (Entry*) malloc (sizeof(Entry)))) {
         printw ("Error allocating memory (student object): %s\n", strerror(errno)); R;
         return NULL;
     }
 
-    sqlite3 *db;
-
-    if (sqlite3_open ("records.db", &db) != SQLITE_OK) {
+    if (sqlite3_open (DATABASE, &db) != SQLITE_OK) {
         printw ("Error opening db (search): %s\n", sqlite3_errmsg (db)); R;
         sqlite3_close (db);
         return NULL;
     }
 
-    sqlite3_stmt *stmt;
 
     const char *sql = "SELECT * FROM students WHERE reg_no = (?)";
 

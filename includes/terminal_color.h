@@ -1,7 +1,7 @@
 #ifndef TC_H
 #define TC_H
 
-//#include <sys/ioctl.h>
+/*#include <sys/ioctl.h>*/
 #define TC_NRM "\x1B[0m"
 #define TC_RED "\x1B[1;31m"
 #define TC_GRN "\x1B[1;32m"

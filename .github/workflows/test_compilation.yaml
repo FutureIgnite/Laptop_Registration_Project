@@ -1,0 +1,65 @@
+name: "Test Mulapizi Compilation"
+
+on:
+    push:
+        branches:
+        - main
+    pull_request:
+        branches:
+        - main
+
+jobs:
+  test_application:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set Up Make Environment
+        run: |
+          apt-get update
+          apt-get install -y make gcc libsqlite3-dev valgrind libxml2-utils xmlstarlet
+
+      - name: Compile Mulapizi
+        run: |
+          make
+      
+      - name: Run Tests
+        run: |
+          make test
+      
+      - name: Run Valgrind and Create Memory Leakege report
+        run: |
+          printf "Q" | valgrind --leak-check=full --track-origins=yes --xml=yes --xml-file=memory_leaks_report.txt ./bin/DevAuth || true
+          chmod +x report.sh && ./report.sh
+
+      - name: Comment Memory Leak Report on PR
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            **Memory Leaks Report**
+            ```
+            $(cat memory_leaks_report.txt)
+            ```
+
+      - name: Open Issue for Memory Leak Report on Push
+        if: github.event_name != 'pull_request'
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('memory_leaks_report.txt', 'utf8');
+            const issueTitle = "Memory Leak Report";
+            const issueBody = `**Memory Leaks Report**\n\n\`\`\`\n${report}\n\`\`\``;
+            await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody
+            });
+
+      - name: Clean Up
+        run: |
+          make clean

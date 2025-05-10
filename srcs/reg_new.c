@@ -1,6 +1,9 @@
 #include "../includes/header_files.h"
 
 int register_student (Entry* entry, WINDOW* child) {
+   char *ch;
+   char *p;
+
    box (child, 4, 4);
    init_current_date (entry, child);
    
@@ -54,7 +57,7 @@ int register_student (Entry* entry, WINDOW* child) {
          goto label2;
       }
 
-      for (char *ch = entry -> student.reg_no; *ch != '\0'; ++ch) {
+      for (ch = entry -> student.reg_no; *ch != '\0'; ++ch) {
          if (!isalnum (*ch) && *ch != '/' && *ch != '\0' && *ch != '\n') {
             wprintw (child, "\t\tError: Registration number contains invalid characters.\n");
             wrefresh (child);
@@ -86,7 +89,7 @@ int register_student (Entry* entry, WINDOW* child) {
          wrefresh (child);
          goto label3;
       }
-      for (char *p = entry -> student.phone_no; *p != '\0'; ++p) {
+      for (p = entry -> student.phone_no; *p != '\0'; ++p) {
          if (!isdigit (*p) && *p != '\n') {
             wprintw (child, "\t\tError: Phone number contains invalid characters.\n");
             wrefresh (child);
@@ -113,7 +116,7 @@ int register_student (Entry* entry, WINDOW* child) {
       if (isEmpty (entry -> student.y_of_study[0], "Year of study", child)) {
          goto label4;
       }      
-      for (char *ch = entry -> student.y_of_study; *ch != '\0'; ++ch) {
+      for (ch = entry -> student.y_of_study; *ch != '\0'; ++ch) {
          if (!isalpha (*ch) && *ch != '\n') {
             wprintw (child, "\t\tError: year of study contains invalid characters.\n");
             wrefresh (child);
@@ -181,4 +184,3 @@ int register_laptop (Entry* Laptop, WINDOW* child) {
 
    return (REG_OK);
 }
-
