@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <gtk/gtk.h>
 #include "variables.h"
 #include "terminal_color.h"
 #include <errno.h>
