@@ -1,6 +1,7 @@
 CC        = gcc
 CFLAGS    = -Wall -Wextra -std=c89 -g
-LIBS      = -lsqlite3 -lncurses
+GTK_FLAGS = $(shell pkg-config --cflags gtk+-3.0)  # GTK3 compiler flags
+LIBS      =  $(shell pkg-config --libs gtk+-3.0) -lsqlite3 # GTK3 + SQlite 3
 
 SRC_DIR   = srcs
 BUILD_DIR = build
@@ -23,12 +24,12 @@ setup:
 	@mkdir -p $(BUILD_DIR) $(BIN_DIR)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+	$(CC) $(CFLAGS) $(GTK_FLAGS) -o $@ $^ $(LIBS)
 	@echo "Linking objects..."
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "Compiling source $<..."
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(GTK_FLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR) $(BIN_DIR) 
