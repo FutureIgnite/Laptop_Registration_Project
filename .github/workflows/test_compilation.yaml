@@ -2,11 +2,13 @@ name: "Test Mulapizi Compilation"
 
 on:
     push:
-        branches:
+      branches:
         - main
     pull_request:
-        branches:
+      branches:
         - main
+
+permissions: write_all
 
 jobs:
   test_application:
